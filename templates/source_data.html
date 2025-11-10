@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}{{ source_data['Name'] }}{% endblock %}
+
+{% block content %}
+    <div class="back-link">
+        <a href="{{ url_for('display_sheet', sheet_slug = sheet_info['slug']) }}">&larr; Back to {{ sheet_info['original_name'] }}</a>
+    </div>
+
+    <br>
+    {% if source_data %}
+    <div class="card w-75 mb-3">
+        <img src="..." class="card-img-top" alt="{{ source_data['Name'] }} Image">
+        <div class="card-body">
+            <h1 class="card-title">{{ source_data['Name'] }}</h1>
+            
+        </div>
+        <ul class="list-group list-group-flush">
+            {% if source_data['Location'] %}<li class="list-group-item">Location: {{ source_data['Location'] | expand }}</li>{% endif %}
+            {% if source_data['Quest'] %}<li class="list-group-item">Required Quest(s):  {{ source_data['Quest'] | expand }} </li>{% endif %}
+            
+        </ul>
+        
+    </div>
+
+    
+    <h2>Drops</h2>
+    <div class="container" id="table">
+        <div class="row row-gap-3">
+            {% for item in source_drops %}
+            <div class="col-6 col-md-4">
+                <div class="card" style="width: 18rem;" >
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item['Name'] }}</h5>
+                        
+                        <p class="card-text">{{ item['Manufacturer'] or item['Class'] or 'Loot'}} {{ item['Type'] or item['sheet'][:-1]}} {% if sheet_info['slug'] == 'shields' %} Shield {% endif %}</p>
+                        <a href="{{ item['url'] }}" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+
+    {% if source_data['Location'] != 'UNK' and items_in_location %}
+    <h2>Other loot in {{ source_data['Location'] }}</h2>
+    <div class="container" id="table">
+        <div class="row row-gap-3">
+            {% for item in items_in_location %}
+            <div class="col-6 col-md-4">
+                <div class="card" style="width: 18rem;" >
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item['Name'] }}</h5>
+                        <p class="card-text">{{ item['Manufacturer'] or item['Class'] or 'Loot'}} {{ item['Type'] or item['sheet'][:-1]}} {% if item['sheet'] == 'Shields' %} Shield {% endif %}</p>
+                        <a href="{{ item['url'] }}" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <p>No data found for this row.</p>
+    {% endif %}
+
+
+{% endblock %}
+

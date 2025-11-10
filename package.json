@@ -1,0 +1,19 @@
+{
+  "name": "python",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sass-dev": "sass --load-path=node_modules --watch --update --style=expanded static/scss:static/css",
+    "sass-prod": "sass --load-path=node_modules --no-source-map --style=compressed static/scss:static/css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.92.1"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  }
+}
