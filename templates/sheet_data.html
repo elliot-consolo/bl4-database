@@ -45,7 +45,7 @@
                         data-{{ filter_column }} = "{{ row[filter_column] }}"
                     {% endfor %}
                 >
-                    <img src="..." class="card-img-top" alt="...">
+                    <img src="{{ sheet_info['slug'] | item_img(row['Name']) | safe }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ row['Name'] }}</h5>
 
@@ -99,7 +99,7 @@
                         const cardValue = card.getAttribute(`data-${column}`);
                         //console.log(cardValue);
                         
-                        if (filterType === "elements") {
+                        if (filterType === "elements" || filterType === "location") {
                             if (filterValue !== 'Any' && filterValue && !cardValue.includes(filterValue)) {
                                 isMatch = false;
                                 break;

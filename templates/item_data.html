@@ -10,7 +10,7 @@
     <br>
     {% if item_data %}
     <div class="card w-75 mb-3">
-        <img src="..." class="card-img-top" alt="{{ item_data['Name'] }} Image">
+        <img src="{{ sheet_info['slug'] | item_img(item_data['Name']) | safe }}" class="img-fluid" alt="{{ item_data['Name'] }} Image">
         <div class="card-body">
             <h1 class="card-title">{{ item_data['Name'] }}</h1>
             <p class="card-text red-text">"{{ item_data['Red Text'] }}"</p>
@@ -21,14 +21,14 @@
             {% if item_data['Manufacturer'] %}<li class="list-group-item">Manufacturer: {{ item_data['Manufacturer'] }}</li>{% endif %}
         </ul>
         <div class="card-body">
-            <p class="card-text">{{ sheet_info['original_name'][:-1] }} Summary: {{ item_data['Summary'] }}</p>
+            <p class="card-text">{{ sheet_info['original_name'][:-1] }}{% if sheet_info['slug'] == 'ordnance' %}e{% endif %} Summary: {{ item_data['Summary'] }}</p>
         </div>
     </div>
     
     <h2>Loot Source</h2>
     {% for source in sources %}
     <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="{{ source['name'] }} Image">
+        <img src="{{ 'sources' | item_img(source['name']) | safe }}" class="card-img-top" alt="{{ source['name'] }} Image">
         <div class="card-body">
             <h4 class="card-title"> {{ source['name'] }}</h4>
             <p class="card-text"> {{ source['location'] }}</p>
@@ -44,7 +44,7 @@
             {% for item in items_in_location %}
             <div class="col-6 col-md-4">
                 <div class="card" style="width: 18rem;" >
-                    <img src="..." class="card-img-top" alt="...">
+                    <img src="{{ item['sheet-slug'] | item_img(item['Name']) | safe }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ item['Name'] }}</h5>
                         <p class="card-text">{{ item['Manufacturer'] or item['Class'] or 'Loot'}} {{ item['Type'] or sheet_info['original_name'][:-1]}} {% if sheet_info['slug'] == 'shields' %} Shield {% endif %}</p>

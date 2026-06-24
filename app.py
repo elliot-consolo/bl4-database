@@ -56,6 +56,17 @@ def get_element_image(element):
 
 app.jinja_env.filters['element_img'] = get_element_image
 
+def get_item_image(sheetName, item):
+    item = item.replace('\'','_')
+    image_path = "images/" + sheetName + "/" + item + ".jpg"
+    if image_path:
+        image_url = url_for('static', filename=image_path)
+        return image_url
+    return item
+
+app.jinja_env.filters['item_img'] = get_item_image
+
+
 @app.route('/spreadsheet-data', methods=['GET'])
 def get_spreadsheet_data():
     try:
@@ -75,6 +86,8 @@ def get_spreadsheet_data():
                 continue
             
             df['name_slug'] = df['Name'].str.lower().str.replace(' ', '-')
+            
+            df['name_slug'] = df['Name'].apply(slugify)
             all_sheets_data[sheet_slug] = df.to_dict(orient='records')
             description = SHEET_DESCRIPTIONS.get(sheet_name, "Description unavailable")
 
@@ -96,6 +109,13 @@ def get_spreadsheet_data():
                 filter_options['Elements'] = sorted(unique_elements, key=lambda element: order_lookup[element])
             if 'Class' in df.columns:
                 filter_options['Class'] = sorted(df['Class'].unique().tolist())
+            if 'Location' in df.columns:
+                #create temp copy of Location with new rows for '|' locations
+                temp_df = df.assign(Location=df['Location'].str.split('|')).explode('Location')
+                #take region after comma if it exists, otherwise take name
+                regions = temp_df['Location'].apply(lambda x: x.split(',', 1)[1].strip() if pd.notnull(x) and ',' in str(x) else str(x).strip())
+                
+                filter_options['Location'] = sorted(regions.unique().tolist())
 
             all_filter_options[sheet_slug] = filter_options
 
@@ -127,6 +147,7 @@ def get_items_in_location(location):
         for item in sheet_data:
             if item['Location'] == location:
                 item['sheet'] = all_sheet_info[sheet_slug]['original_name']
+                item['sheet-slug'] = all_sheet_info[sheet_slug]['slug']
                 item['url'] = url_for('display_item', sheet_slug=sheet_slug, name_slug=item['name_slug'])
                 items_in_location.append(item)
     return items_in_location
@@ -138,16 +159,19 @@ def get_source_drops(source):
 
     for sheet_slug, sheet_data in data.items():
         for item in sheet_data:
+            item['sheet'] = all_sheet_info[sheet_slug]['original_name']
+            item['sheet-slug'] = all_sheet_info[sheet_slug]['slug']
+            
             if '|' in item['Source']:
                 temp_sources = item['Source'].split('|')
                 sources = [item.strip() for item in temp_sources]
                 
                 if source in sources:
-                    item['sheet'] = all_sheet_info[sheet_slug]['original_name']
+                    
                     item['url'] = url_for('display_item', sheet_slug=sheet_slug, name_slug=item['name_slug'])
                     source_drops.append(item)
             elif item['Source'] == source:
-                item['sheet'] = all_sheet_info[sheet_slug]['original_name']
+                
                 item['url'] = url_for('display_item', sheet_slug=sheet_slug, name_slug=item['name_slug'])
                 source_drops.append(item)
     return source_drops
