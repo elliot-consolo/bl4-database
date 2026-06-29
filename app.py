@@ -129,8 +129,8 @@ def get_spreadsheet_data():
                 #create temp copy of Location with new rows for '|' locations
                 temp_df = df.assign(Location=df['Location'].str.split('|')).explode('Location')
                 temp_df = temp_df.replace(r'^\s*$', np.nan, regex=True).infer_objects(copy=False)
+
                 #take region after comma if it exists, otherwise take name
-                #temp_regions = temp_df['Location'].apply(lambda x: x.split(',', 1)[1].strip() if pd.notnull(x) and ',' in str(x) else str(x).strip())
                 for idx, location in temp_df['Location'].items():
                     if pd.notnull(location) and pd.notnull(idx):
                         parts = location.split(',')
@@ -142,6 +142,7 @@ def get_spreadsheet_data():
                             temp_df.at[idx, 'Location'] = parts[0].strip()
                             all_regions.append(parts[0].strip())
                 sheet_regions = temp_df['Location'].unique().tolist()
+
                 # remove actual NaN values and any empty/whitespace-only strings
                 sheet_regions = [str(x).strip() for x in sheet_regions if pd.notnull(x) and str(x).strip() != '']
 
@@ -152,13 +153,19 @@ def get_spreadsheet_data():
                 all_regions = [str(x).strip() for x in all_regions if pd.notnull(x) and str(x).strip() != '']
                 all_regions = remove_duplicates(all_regions)
 
-                filter_options['Location'] = sorted(sheet_regions)
+                location_order = ['Fadefields', 'Carcadia Burn', 'Terminus Range', 'Dominion', 'The Whispering Glacier', 'The Demon\'s Domain']
+                order_lookup = {item: index for index, item in enumerate(location_order)}
+
+                all_regions = sorted(all_regions, key=lambda x: order_lookup.get(x, len(location_order)))
+
+                filter_options['Location'] = sorted(sheet_regions, key=lambda x: order_lookup.get(x, len(location_order)))
             
 
             all_filter_options[sheet_slug] = filter_options
 
         locations['regions'] = all_regions
         locations['areas'] = all_areas
+        locations['region_slugs'] = [slugify(region) for region in all_regions]
 
         return all_sheets_data, all_sheet_info, all_filter_options, locations
     except FileNotFoundError:
@@ -201,6 +208,7 @@ def get_all_names_for_trie():
                 'url': url_for('display_item', sheet_slug=sheet_slug, name_slug=row['name_slug'])
             })
     return all_names_data
+
 
 def get_items_in_location(location):
     items_in_location = []
@@ -303,6 +311,38 @@ def display_item(sheet_slug, name_slug):
     
     abort(404, description=f"Sheet '{sheet_slug}' not found")
 
+@app.route('/api/data/locations/<string:location_slug>', methods=['GET'])
+def display_location(location_slug):
+    trie_data = get_all_names_for_trie()
+    region_name, region_slug = next(((region, slug) for region, slug in zip(locations['regions'], locations['region_slugs']) if slug == location_slug), None)
+    
+    if region_name:
+        location_data = {
+            'region_name': region_name,
+            'region_slug': region_slug
+        }
+        items_in_region = []
+        sources_in_region = []
+        for sheet_slug, sheet_data in all_sheets_data.items():
+            if sheet_slug != 'sources':
+                for item in sheet_data:
+                    if region_name in item['Location']:
+                        item['sheet'] = all_sheet_info[sheet_slug]['original_name']
+                        item['sheet-slug'] = all_sheet_info[sheet_slug]['slug']
+                        item['url'] = url_for('display_item', sheet_slug=sheet_slug, name_slug=item['name_slug'])
+                        items_in_region.append(item)
+            else:
+                for source in sheet_data:
+                    if region_name in source['Location']:
+                        source['sheet'] = all_sheet_info[sheet_slug]['original_name']
+                        source['sheet-slug'] = all_sheet_info[sheet_slug]['slug']
+                        source['url'] = url_for('display_item', sheet_slug=sheet_slug, name_slug=source['name_slug'])
+                        sources_in_region.append(source)
+        
+        return render_template('location_data.html', location_data=location_data, items_in_region=items_in_region, sources_in_region=sources_in_region, trie_data=trie_data)
+    
+    abort(404, description=f"Region '{location_slug}' not found")
+    
 # --- Frontend route ---
 @app.route('/', methods=['GET'])
 def index():
