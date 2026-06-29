@@ -42,6 +42,18 @@ def slugify(text):
     text = re.sub(r'[\s-]+', '-', text).strip('-') # Replace spaces with single hyphen
     return text
 
+def remove_duplicates(lst):
+    """
+    Removes duplicates from a list while preserving the original order.
+    """
+    seen = set()
+    result = []
+    for item in lst:
+        if item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
+
 def expand_abbreviation(abbrev):
     return ABBREVIATIONS.get(abbrev, abbrev)
 
@@ -76,6 +88,10 @@ def get_spreadsheet_data():
         all_sheets_data = {}
         all_sheet_info = {}
         all_filter_options = {}
+
+        locations = {}
+        all_regions = []
+        all_areas = []
 
         for sheet_name,df in xls.items():
             df = df.replace(np.nan, '') 
@@ -112,20 +128,68 @@ def get_spreadsheet_data():
             if 'Location' in df.columns:
                 #create temp copy of Location with new rows for '|' locations
                 temp_df = df.assign(Location=df['Location'].str.split('|')).explode('Location')
+                temp_df = temp_df.replace(r'^\s*$', np.nan, regex=True).infer_objects(copy=False)
                 #take region after comma if it exists, otherwise take name
-                regions = temp_df['Location'].apply(lambda x: x.split(',', 1)[1].strip() if pd.notnull(x) and ',' in str(x) else str(x).strip())
-                
-                filter_options['Location'] = sorted(regions.unique().tolist())
+                #temp_regions = temp_df['Location'].apply(lambda x: x.split(',', 1)[1].strip() if pd.notnull(x) and ',' in str(x) else str(x).strip())
+                for idx, location in temp_df['Location'].items():
+                    if pd.notnull(location) and pd.notnull(idx):
+                        parts = location.split(',')
+                        if len(parts) > 1:
+                            temp_df.at[idx, 'Location'] = parts[1].strip()
+                            all_areas.append(parts[0].strip())
+                            all_regions.append(parts[1].strip())
+                        else:
+                            temp_df.at[idx, 'Location'] = parts[0].strip()
+                            all_regions.append(parts[0].strip())
+                sheet_regions = temp_df['Location'].unique().tolist()
+                # remove actual NaN values and any empty/whitespace-only strings
+                sheet_regions = [str(x).strip() for x in sheet_regions if pd.notnull(x) and str(x).strip() != '']
+
+                # clean areas list as well
+                all_areas = [str(x).strip() for x in all_areas if pd.notnull(x) and str(x).strip() != '']
+                all_areas = remove_duplicates(all_areas)
+
+                all_regions = [str(x).strip() for x in all_regions if pd.notnull(x) and str(x).strip() != '']
+                all_regions = remove_duplicates(all_regions)
+
+                filter_options['Location'] = sorted(sheet_regions)
+            
 
             all_filter_options[sheet_slug] = filter_options
 
-        return all_sheets_data, all_sheet_info, all_filter_options
+        locations['regions'] = all_regions
+        locations['areas'] = all_areas
+
+        return all_sheets_data, all_sheet_info, all_filter_options, locations
     except FileNotFoundError:
         print("Error: spreadsheet not found. Please ensure the file is in the same directory.")
         return []    
 
-all_sheets_data, all_sheet_info, all_filter_options = get_spreadsheet_data()
+all_sheets_data, all_sheet_info, all_filter_options, locations = get_spreadsheet_data()
 available_sheets = list(all_sheets_data.keys())
+
+def filter_option_text(filter, option):
+    if filter == "Elements":
+        if option == "N":
+            return "No Element"
+        elif option == "F":
+            return "Incendiary"
+        elif option == "S":
+            return "Shock"
+        elif option == "C":
+            return "Corrosive"
+        elif option == "R":
+            return "Radiation"
+        elif option == "Y":
+            return "Cryo"
+    elif filter == "Type":
+        if option == "AR":
+            return "Assault Rifle"
+        elif option == "SMG":
+            return "Submachine Gun"
+        elif option == "SG":
+            return "Shotgun"
+    return option
 
 def get_all_names_for_trie():
     all_names_data = []
@@ -187,7 +251,7 @@ def display_sheet(sheet_slug):
 
     if sheet_slug in all_sheets_data:
         sheet_data = all_sheets_data[sheet_slug]
-        return render_template('sheet_data.html',sheet_info=all_sheet_info[sheet_slug], sheet_data=sheet_data, filter_options=all_filter_options[sheet_slug], trie_data=trie_data)
+        return render_template('sheet_data.html',sheet_info=all_sheet_info[sheet_slug], sheet_data=sheet_data, filter_options=all_filter_options[sheet_slug], trie_data=trie_data, filter_option_text=filter_option_text)
     abort(404, description=f"Sheet '{sheet_slug}' not found")
 
 # --- API endpoint to get data for a specific sheet ---
@@ -243,7 +307,7 @@ def display_item(sheet_slug, name_slug):
 @app.route('/', methods=['GET'])
 def index():
     trie_data = get_all_names_for_trie()
-    return render_template('index.html', sheet_info=all_sheet_info, trie_data=trie_data)
+    return render_template('index.html', sheet_info=all_sheet_info, trie_data=trie_data, locations=locations)
 
 @app.route('/api/sheets', methods=['GET'])
 def getSheets():

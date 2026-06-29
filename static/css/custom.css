@@ -11867,4 +11867,58 @@ textarea.form-control-lg {
   color: #FF0000;
 }
 
+h1, h2 {
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h3, h4, h5, p, a, .btn {
+  font-family: "Doppio One", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.btn:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.legendary .btn:hover {
+  background-color: #746100;
+}
+
+.card {
+  --bs-card-bg: #1e1e24;
+  
+  --bs-card-border-width: 2px;       /* Removes the default border */
+  --bs-card-border-radius: 0.5rem;   /* Makes corners very round */
+  --bs-card-spacer-x: 1rem;          /* Gives text more breathing room horizontally */
+  transform: scale(1);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.legendary {
+  --bs-card-color: #ffec8d;
+  --bs-card-border-color: #bfa525;
+}
+
+.legendary .info {
+  color: #a1965c;
+}
+
+.legendary .btn {
+  border-color: #bfa525;
+  background-color: #a08600;
+}
+
+.card-img-top {
+  --bs-border-color: var(--bs-card-border-color);
+  --bs-border-width: 2px;
+}
+
+.card:hover:not(.no-hover) {
+  transform: scale(1.05); 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
 /*# sourceMappingURL=custom.css.map */

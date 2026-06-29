@@ -9,7 +9,7 @@
 
     <br>
     {% if source_data %}
-    <div class="card w-75 mb-3">
+    <div class="card w-75 mb-3 no-hover">
         <img src="{{ sheet_info['slug'] | item_img(source_data['Name']) | safe }}" class="card-img-top" alt="{{ source_data['Name'] }} Image">
         <div class="card-body">
             <h1 class="card-title">{{ source_data['Name'] }}</h1>

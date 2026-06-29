@@ -29,7 +29,7 @@
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item filter-option" href="#" filter-type="{{  filter  }}" filter-value="Any">Any</a></li>
                 {% for option in options %}
-                <li><a class="dropdown-item filter-option" href="#" filter-type="{{  filter  }}" filter-value="{{ option }}">{{ option }}</a></li>
+                <li><a class="dropdown-item filter-option" href="#" filter-type="{{  filter  }}" filter-value="{{ option }}">{{ filter_option_text(filter, option) }}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -40,16 +40,19 @@
         <div class="row row-gap-3">
             {% for row in sheet_data %}
             <div class="col-6 col-md-4">
-                <div class="card" style="width: 18rem;" 
+                <!--
+                class="card {'pearl' if item.isPearl else 'legendary'}"
+                -->
+                <div class="card {{'' if sheet_info['original_name'] == 'Sources' else 'legendary'}}" style="width: 18rem;" 
                     {% for filter_column,options in filter_options.items() %} 
                         data-{{ filter_column }} = "{{ row[filter_column] }}"
                     {% endfor %}
                 >
-                    <img src="{{ sheet_info['slug'] | item_img(row['Name']) | safe }}" class="card-img-top" alt="...">
+                    <img src="{{ sheet_info['slug'] | item_img(row['Name']) | safe }}" class="card-img-top border-bottom" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ row['Name'] }}</h5>
 
-                        <p class="card-text">{{ row['Manufacturer'] or row['Class'] or 'Loot'}} {{ row['Type'] or sheet_info['original_name'][:-1]}} {% if sheet_info['slug'] == 'shields' %} Shield {% endif %}</p>
+                        <p class="card-text info">{{ row['Manufacturer'] or row['Class'] or 'Loot'}} {{ row['Type'] or sheet_info['original_name'][:-1]}} {% if sheet_info['slug'] == 'shields' %} Shield {% endif %}</p>
                         <a href="{{ url_for('display_item', sheet_slug=sheet_info['slug'], name_slug=row['name_slug']) }}" class="btn btn-primary">View</a>
                     </div>
                 </div>

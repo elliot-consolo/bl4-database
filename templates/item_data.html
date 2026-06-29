@@ -9,7 +9,7 @@
 
     <br>
     {% if item_data %}
-    <div class="card w-75 mb-3">
+    <div class="card w-75 mb-3 no-hover">
         <img src="{{ sheet_info['slug'] | item_img(item_data['Name']) | safe }}" class="img-fluid" alt="{{ item_data['Name'] }} Image">
         <div class="card-body">
             <h1 class="card-title">{{ item_data['Name'] }}</h1>

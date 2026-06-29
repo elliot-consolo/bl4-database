@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<h1>Databases</h1>
-<div class="container" id="table">
-    <div class="row row-gap-3">
+
+<h1 class="text-center mb-4">Welcome to VaultDrops!</h1>
+
+<h2 class="text-center mb-3">Browse Gear:</h2>
+
+<div class="container mb-5 mx-auto" id="table">
+    <div class="row row-gap-3 justify-content-center">
         {% for sheet_slug, sheet_info in sheet_info.items() %}
-        <div class="col-6 col-md-4">
-            <div class="card" style="width: 18rem;">
+        {% if sheet_info['original_name'] != 'Sources' %}
+        <div class="col-6 col-md-4 d-flex justify-content-center">
+            <div class="card mx-auto" style="width: 18rem;">
                 <img src="..." class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{ sheet_info['original_name'] }}</h5>
@@ -16,7 +21,33 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>
+
+<h2 class="text-center mb-3">Find Loot Sources:</h2>
+
+<div class="card mx-auto mb-5" style="width: 18rem;">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">{{ sheet_info['sources']['original_name'] }}</h5>
+        <p class="card-text">{{ sheet_info['sources']['description'] }}</p>
+        <a href="{{ url_for('display_sheet', sheet_slug=sheet_info['sources']['slug']) }}" class="btn btn-primary">Search {{
+            sheet_info['sources']['original_name'] }}</a>
+        </div>
+    </div>
+</div>
+
+<h2 class="text-center mb-3">Discover Locations:</h2>
+
+{% for region in locations['regions'] %}
+    <div class="card mx-auto mb-3" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{ region }}</h5>
+        </div>
+    </div>
+{% endfor %}
+
 {% endblock %}
