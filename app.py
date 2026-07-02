@@ -78,6 +78,15 @@ def get_item_image(sheetName, item):
 
 app.jinja_env.filters['item_img'] = get_item_image
 
+def get_location_image(location):
+    location = location.replace('\'','_')
+    image_path = "images/locations/" + location + ".jpg"
+    if image_path:
+        image_url = url_for('static', filename=image_path)
+        return image_url
+    return location
+
+app.jinja_env.filters['location_img'] = get_location_image
 
 @app.route('/spreadsheet-data', methods=['GET'])
 def get_spreadsheet_data():
@@ -153,7 +162,7 @@ def get_spreadsheet_data():
                 all_regions = [str(x).strip() for x in all_regions if pd.notnull(x) and str(x).strip() != '']
                 all_regions = remove_duplicates(all_regions)
 
-                location_order = ['Fadefields', 'Carcadia Burn', 'Terminus Range', 'Dominion', 'The Whispering Glacier', 'The Demon\'s Domain']
+                location_order = ['Fadefields', 'Carcadia Burn', 'Terminus Range', 'Dominion', 'The Whispering Glacier', 'The Demon\'s Domain', 'PRIVATE DICK']
                 order_lookup = {item: index for index, item in enumerate(location_order)}
 
                 all_regions = sorted(all_regions, key=lambda x: order_lookup.get(x, len(location_order)))

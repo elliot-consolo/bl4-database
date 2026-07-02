@@ -1,35 +1,31 @@
-{% extends "base.html" %}
-
-{% block title %}{{sheet_info['original_name']}} Database{% endblock %}
-{% block content %}
-
-    
+{% extends "base.html" %} {% block title %}{{sheet_info['original_name']}}
+Database{% endblock %} {% block content %}
+<div class="container mt-4">
     <div class="back-link">
         <a href="{{ url_for('index') }}">&larr; Back to Home</a>
     </div>
 
-    <h2>
-    {{sheet_info['original_name']}} Database
-    </h2>
-
-    
+    <h2>{{sheet_info['original_name']}} Database</h2>
 
     <div class="container">
         {% if filter_options.items() %}
-            <h4>
-                Filters: 
-            </h4>
-        {% endif %}
-
-        {% for filter,options in filter_options.items() %}
+        <h4>Filters:</h4>
+        {% endif %} {% for filter,options in filter_options.items() %}
         <div class="dropdown d-inline-block">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
                 {{ filter }}
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item filter-option" href="#" filter-type="{{  filter  }}" filter-value="Any">Any</a></li>
+                <li>
+                    <a class="dropdown-item filter-option" href="#" filter-type="{{  filter  }}"
+                        filter-value="Any">Any</a>
+                </li>
                 {% for option in options %}
-                <li><a class="dropdown-item filter-option" href="#" filter-type="{{  filter  }}" filter-value="{{ option }}">{{ filter_option_text(filter, option) }}</a></li>
+                <li>
+                    <a class="dropdown-item filter-option" href="#" filter-type="{{  filter  }}"
+                        filter-value="{{ option }}">{{ filter_option_text(filter, option) }}</a>
+                </li>
                 {% endfor %}
             </ul>
         </div>
@@ -43,88 +39,100 @@
                 <!--
                 class="card {'pearl' if item.isPearl else 'legendary'}"
                 -->
-                <div class="card {{'' if sheet_info['original_name'] == 'Sources' else 'legendary'}}" style="width: 18rem;" 
-                    {% for filter_column,options in filter_options.items() %} 
-                        data-{{ filter_column }} = "{{ row[filter_column] }}"
-                    {% endfor %}
-                >
-                    <img src="{{ sheet_info['slug'] | item_img(row['Name']) | safe }}" class="card-img-top border-bottom" alt="...">
+                <div class="card {{'' if sheet_info['original_name'] == 'Sources' else 'legendary'}}"
+                    style="width: 18rem" {% for filter_column,options in filter_options.items() %} data-{{ filter_column
+                    }}="{{ row[filter_column] }}" {% endfor %}>
+                    <img src="{{ sheet_info['slug'] | item_img(row['Name']) | safe }}"
+                        class="card-img-top border-bottom" alt="..." />
                     <div class="card-body">
                         <h5 class="card-title">{{ row['Name'] }}</h5>
 
-                        <p class="card-text info">{{ row['Manufacturer'] or row['Class'] or 'Loot'}} {{ row['Type'] or sheet_info['original_name'][:-1]}} {% if sheet_info['slug'] == 'shields' %} Shield {% endif %}</p>
-                        <a href="{{ url_for('display_item', sheet_slug=sheet_info['slug'], name_slug=row['name_slug']) }}" class="btn btn-primary">View</a>
+                        <p class="card-text info">
+                            {{ row['Manufacturer'] or row['Class'] or 'Loot'}} {{ row['Type']
+                            or sheet_info['original_name'][:-1]}} {% if sheet_info['slug'] ==
+                            'shields' %} Shield {% endif %}
+                        </p>
+                        <a href="{{ url_for('display_item', sheet_slug=sheet_info['slug'], name_slug=row['name_slug']) }}"
+                            class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-{% endblock %}
+</div>
+{% endblock %} {% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const filterState = {};
 
-{% block scripts %}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const filterState = {};
+        document.querySelectorAll('.filter-option').forEach((item) => {
+            item.addEventListener('click', (event) => {
+                event.preventDefault(); //prevent href
 
-            document.querySelectorAll('.filter-option').forEach(item => {
-                item.addEventListener('click', event => {
-                    event.preventDefault(); //prevent href
+                const filterType = event.target
+                    .getAttribute('filter-type')
+                    .toLowerCase();
+                const filterValue = event.target.getAttribute('filter-value');
 
-                    const filterType = event.target.getAttribute('filter-type').toLowerCase();
-                    const filterValue = event.target.getAttribute('filter-value');
+                const filter = event.target.getAttribute('filter-value');
 
-                    const filter = event.target.getAttribute('filter-value');
-                    
-                    const button = event.target.closest('.dropdown').querySelector('.dropdown-toggle');
-                    if (button) {
-                        const newText = event.target.textContent.trim();
-                        button.textContent = newText;
-                    }
-                    
-                    filterState[filterType] = filterValue;
-                    
-                    filterCards(filterState, filterType);
-                })
-            })
+                const button = event.target
+                    .closest('.dropdown')
+                    .querySelector('.dropdown-toggle');
+                if (button) {
+                    const newText = event.target.textContent.trim();
+                    button.textContent = newText;
+                }
 
-            function filterCards(filterState, filterType) {
-                const columns = document.getElementById('table').querySelectorAll('.col-md-4');
-                
-                columns.forEach(cols => {
-                    let isMatch = true;
-                    const card = cols.querySelector('.card');
-                    
-                    for (const column in filterState) {
+                filterState[filterType] = filterValue;
 
-                        const filterValue = filterState[column];
-                        //console.log(filterValue);
-                        const cardValue = card.getAttribute(`data-${column}`);
-                        //console.log(cardValue);
-                        
-                        if (filterType === "elements" || filterType === "location") {
-                            if (filterValue !== 'Any' && filterValue && !cardValue.includes(filterValue)) {
-                                isMatch = false;
-                                break;
-                            }
-                        }
-                        else if (filterValue !== 'Any' && filterValue && filterValue !== cardValue) {
+                filterCards(filterState, filterType);
+            });
+        });
+
+        function filterCards(filterState, filterType) {
+            const columns = document
+                .getElementById('table')
+                .querySelectorAll('.col-md-4');
+
+            columns.forEach((cols) => {
+                let isMatch = true;
+                const card = cols.querySelector('.card');
+
+                for (const column in filterState) {
+                    const filterValue = filterState[column];
+                    //console.log(filterValue);
+                    const cardValue = card.getAttribute(`data-${column}`);
+                    //console.log(cardValue);
+
+                    if (filterType === 'elements' || filterType === 'location') {
+                        if (
+                            filterValue !== 'Any' &&
+                            filterValue &&
+                            !cardValue.includes(filterValue)
+                        ) {
                             isMatch = false;
                             break;
                         }
+                    } else if (
+                        filterValue !== 'Any' &&
+                        filterValue &&
+                        filterValue !== cardValue
+                    ) {
+                        isMatch = false;
+                        break;
                     }
-                    if (isMatch) {
-                        console.log("g");
-                        cols.classList.remove('d-none');
-                    }
-                    else {
-                        cols.classList.add('d-none');
-                    }
-                });
-            }
-        })
-
-    </script>
-
+                }
+                if (isMatch) {
+                    console.log('g');
+                    cols.classList.remove('d-none');
+                } else {
+                    cols.classList.add('d-none');
+                }
+            });
+        }
+    });
+</script>
 
 {% endblock %}

@@ -11921,4 +11921,51 @@ h3, h4, h5, p, a, .btn {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+.location-images:hover {
+  height: 200px;
+  opacity: 1;
+}
+
+.location-images {
+  width: 100%;
+  height: 125px;
+  opacity: 0.8;
+  
+  display: block;
+  object-fit: cover;
+  transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.location-ctr:hover .location-text {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  transform: scale(1.2);
+}
+
+.location-ctr {
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+
+  background-color: #000000;
+
+  overflow: hidden;
+}
+
+.location-text {
+  position: absolute;
+  z-index: 2;
+  text-align: left;
+  padding-left: 25px;
+  color: #ffffff;
+  pointer-events: none; /* Prevents the text box from blocking hover inputs to the container */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+
+  transition: text-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transform-origin: left center;
+}
+
 /*# sourceMappingURL=custom.css.map */

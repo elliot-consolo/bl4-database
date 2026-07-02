@@ -43,13 +43,18 @@
 <h2 class="text-center mb-3">Discover Locations:</h2>
 
 {% for region in locations['regions'] %}
-    <div class="card mx-auto mb-3" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">{{ region }}</h5>
-            <a href="{{ url_for('display_location', location_slug=locations['region_slugs'][loop.index0]) }}" class="btn btn-primary">Search {{
-            region }}
-            </a>
+    <div class="container-fluid p-0">
+        <div class="row g-0 mx-n3 mx-sm-n4 mx-md-n5">
+            <div class="col-12 p-0 d-flex flex-column">
+                <div class="location-ctr">
+                    <a href="{{ url_for('display_location', location_slug=locations['region_slugs'][loop.index0]) }}" class="location-images">
+                        <img src="{{ locations['regions'][loop.index0] | location_img }}" class="location-images" alt="...">
+                    </a>
+                    <h3 class="location-text">{{ region }}</h3>
+                </div>
+                
+            </div>
+
         </div>
     </div>
 {% endfor %}
