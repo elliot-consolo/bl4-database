@@ -3,6 +3,7 @@ from urllib.parse import quote_plus, unquote_plus
 import re
 import pandas as pd
 import numpy as np
+import random
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
 
@@ -87,6 +88,8 @@ def get_location_image(location):
     return location
 
 app.jinja_env.filters['location_img'] = get_location_image
+
+
 
 @app.route('/spreadsheet-data', methods=['GET'])
 def get_spreadsheet_data():
@@ -183,6 +186,21 @@ def get_spreadsheet_data():
 
 all_sheets_data, all_sheet_info, all_filter_options, locations = get_spreadsheet_data()
 available_sheets = list(all_sheets_data.keys())
+
+def get_random_images():
+    random_images = {}
+    
+    for (sheet_key, sheet), (sheet_info_key, sheet_info) in zip(all_sheets_data.items(), all_sheet_info.items()):
+        
+        item_pool = []
+        for row in sheet:
+            item_pool.append(row["Name"])
+        
+        items = random.sample(item_pool, k=3)
+        
+        random_images[sheet_info['slug']] = [get_item_image(sheet_info['slug'], item) for item in items]
+    
+    return random_images
 
 def filter_option_text(filter, option):
     if filter == "Elements":
@@ -356,7 +374,8 @@ def display_location(location_slug):
 @app.route('/', methods=['GET'])
 def index():
     trie_data = get_all_names_for_trie()
-    return render_template('index.html', sheet_info=all_sheet_info, trie_data=trie_data, locations=locations)
+    random_images = get_random_images()
+    return render_template('index.html', sheet_info=all_sheet_info, trie_data=trie_data, locations=locations, random_images=random_images)
 
 @app.route('/api/sheets', methods=['GET'])
 def getSheets():

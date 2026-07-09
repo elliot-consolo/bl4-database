@@ -11887,6 +11887,10 @@ h3, h4, h5, p, a, .btn {
   background-color: #746100;
 }
 
+.pearl .btn:hover {
+  background-color: #004d55;
+}
+
 .card {
   --bs-card-bg: #1e1e24;
   
@@ -11909,6 +11913,20 @@ h3, h4, h5, p, a, .btn {
 .legendary .btn {
   border-color: #bfa525;
   background-color: #a08600;
+}
+
+.pearl {
+  --bs-card-color: #6ffefc;
+  --bs-card-border-color: #28b9c9;
+}
+
+.pearl .info {
+  color: #3e989b;
+}
+
+.pearl .btn {
+  border-color: #1b9eac;
+  background-color: #006873;
 }
 
 .card-img-top {

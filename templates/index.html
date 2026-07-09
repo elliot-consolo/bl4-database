@@ -2,7 +2,7 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
-<h1 class="text-center mb-4">Welcome to VaultDrops!</h1>
+<h1 class="text-center mb-4 mt-2">Welcome to VaultDrops!</h1>
 
 <h2 class="text-center mb-3">Browse Gear:</h2>
 
@@ -12,7 +12,16 @@
         {% if sheet_info['original_name'] != 'Sources' %}
         <div class="col-6 col-md-4 d-flex justify-content-center">
             <div class="card mx-auto" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
+                <div class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-pause="false" data-bs-touch="false">
+                    <div class="carousel-inner">
+                        {% for image in random_images[sheet_slug] %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <img src="{{ image }}" class="card-img-top" alt="...">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
                 <div class="card-body">
                     <h5 class="card-title">{{ sheet_info['original_name'] }}</h5>
                     <p class="card-text">{{ sheet_info['description'] }}</p>
@@ -30,11 +39,21 @@
 <h2 class="text-center mb-3">Find Loot Sources:</h2>
 
 <div class="card mx-auto mb-5" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
+    <div class="carousel slide carousel-fade card-img-top" data-bs-ride="carousel" data-bs-pause="false" data-bs-touch="false">
+        <div class="carousel-inner">
+            {% for image in random_images['sources'] %}
+            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                <img src="{{ image }}" class="card-img-top" alt="...">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <div class="card-body">
         <h5 class="card-title">{{ sheet_info['sources']['original_name'] }}</h5>
         <p class="card-text">{{ sheet_info['sources']['description'] }}</p>
-        <a href="{{ url_for('display_sheet', sheet_slug=sheet_info['sources']['slug']) }}" class="btn btn-primary">Search {{
+        <a href="{{ url_for('display_sheet', sheet_slug=sheet_info['sources']['slug']) }}"
+            class="btn btn-primary">Search {{
             sheet_info['sources']['original_name'] }}
         </a>
     </div>
@@ -43,20 +62,21 @@
 <h2 class="text-center mb-3">Discover Locations:</h2>
 
 {% for region in locations['regions'] %}
-    <div class="container-fluid p-0">
-        <div class="row g-0 mx-n3 mx-sm-n4 mx-md-n5">
-            <div class="col-12 p-0 d-flex flex-column">
-                <div class="location-ctr">
-                    <a href="{{ url_for('display_location', location_slug=locations['region_slugs'][loop.index0]) }}" class="location-images">
-                        <img src="{{ locations['regions'][loop.index0] | location_img }}" class="location-images" alt="...">
-                    </a>
-                    <h3 class="location-text">{{ region }}</h3>
-                </div>
-                
+<div class="container-fluid p-0">
+    <div class="row g-0 mx-n3 mx-sm-n4 mx-md-n5">
+        <div class="col-12 p-0 d-flex flex-column">
+            <div class="location-ctr">
+                <a href="{{ url_for('display_location', location_slug=locations['region_slugs'][loop.index0]) }}"
+                    class="location-images">
+                    <img src="{{ locations['regions'][loop.index0] | location_img }}" class="location-images" alt="...">
+                </a>
+                <h3 class="location-text">{{ region }}</h3>
             </div>
 
         </div>
+
     </div>
+</div>
 {% endfor %}
 
 {% endblock %}

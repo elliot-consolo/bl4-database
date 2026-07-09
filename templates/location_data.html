@@ -3,6 +3,7 @@
 {% block title %}{{ location_data['region_name'] }}{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
     <div class="back-link">
         <a href="{{ url_for('index') }}">&larr; Back to Home</a>
     </div>
@@ -59,5 +60,5 @@
     
 
     {% endif %}
-
+</div>
 {% endblock %}

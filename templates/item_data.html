@@ -3,6 +3,7 @@
 {% block title %}{{ item_data['Name'] }}{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
     <div class="back-link">
         <a href="{{ url_for('display_sheet', sheet_slug = sheet_info['slug']) }}">&larr; Back to {{ sheet_info['original_name'] }}</a>
     </div>
@@ -62,6 +63,6 @@
     <p>No data found for this row.</p>
     {% endif %}
 
-
+</div>
 {% endblock %}
 

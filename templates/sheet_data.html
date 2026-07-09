@@ -7,7 +7,7 @@ Database{% endblock %} {% block content %}
 
     <h2>{{sheet_info['original_name']}} Database</h2>
 
-    <div class="container">
+    <div class="container mb-3">
         {% if filter_options.items() %}
         <h4>Filters:</h4>
         {% endif %} {% for filter,options in filter_options.items() %}
@@ -36,10 +36,7 @@ Database{% endblock %} {% block content %}
         <div class="row row-gap-3">
             {% for row in sheet_data %}
             <div class="col-6 col-md-4">
-                <!--
-                class="card {'pearl' if item.isPearl else 'legendary'}"
-                -->
-                <div class="card {{'' if sheet_info['original_name'] == 'Sources' else 'legendary'}}"
+                <div class="card {{'' if sheet_info['original_name'] == 'Sources' else ('pearl' if row['Rarity'] == 'Pearlescent' else 'legendary')}}"
                     style="width: 18rem" {% for filter_column,options in filter_options.items() %} data-{{ filter_column
                     }}="{{ row[filter_column] }}" {% endfor %}>
                     <img src="{{ sheet_info['slug'] | item_img(row['Name']) | safe }}"
