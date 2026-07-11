@@ -21,14 +21,14 @@ class Trie {
                 current.children[char] = new TrieNode();
             }
             if (char === ' ') {
-                this.insert(word.substring(i+1), url, originalName || word)
+                this.insert(word.substring(i+1), url, originalName)
             }
             current = current.children[char];
         }
         current.isEndOfWord = true;
         current.items.push({
             url: url,
-            originalName: originalName || word
+            originalName: originalName
         });
     }
 
