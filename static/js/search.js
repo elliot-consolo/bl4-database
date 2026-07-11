@@ -2,8 +2,8 @@ class TrieNode {
     constructor() {
         this.children = {};
         this.isEndOfWord = false;
-        this.url = null;
-        this.originalName = null;
+        this.items = [];
+        
     }
 }
 
@@ -21,13 +21,15 @@ class Trie {
                 current.children[char] = new TrieNode();
             }
             if (char === ' ') {
-                this.insert(word.substring(i+1), url, word)
+                this.insert(word.substring(i+1), url, originalName || word)
             }
             current = current.children[char];
         }
         current.isEndOfWord = true;
-        current.url = url;
-        current.originalName = originalName;
+        current.items.push({
+            url: url,
+            originalName: originalName || word
+        });
     }
 
     //searches Trie for prefix user typed in. returns list of all words with this prefix using findAllWords
@@ -40,14 +42,25 @@ class Trie {
             }
             current = current.children[char];
         }
-        return this.findAllWords(current, prefix);
+        
+        let rawResults = []
+        rawResults = this.findAllWords(current, prefix);
+
+        const uniqueResults = new Map();
+        for (const result of rawResults) {
+            uniqueResults.set(result.url, result);
+        }
+
+        return Array.from(uniqueResults.values());
     }
 
     //recursively adds all complete words from the Trie with the users prefix, prefix parameter is used to continue recursion
     findAllWords(node, prefix) {
         let results = [];
         if (node.isEndOfWord) {
-            results.push({ name: node.originalName, url: node.url });
+            for (const item of node.items) {
+                results.push({ name: item.originalName, url: item.url });
+            }
         }
         for (const char in node.children) {
             results = results.concat(this.findAllWords(node.children[char], prefix + char));
@@ -78,7 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.href = suggestion.url;
                 link.className = 'list-group-item list-group-item-action';
                 link.textContent = suggestion.name;
+                
                 searchResultsContainer.appendChild(link);
+                
             });
         }
     });

@@ -34,7 +34,7 @@
         <div class="row row-gap-3">
             {% for item in source_drops %}
             <div class="col-6 col-md-4">
-                <div class="card" style="width: 18rem;">
+                <div class="card {{'pearl' if item['Rarity'] == 'Pearlescent' else 'legendary'}}" style="width: 18rem;">
                     <img src="{{ item['sheet-slug'] | item_img(item['Name']) | safe }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ item['Name'] }}</h5>
@@ -56,7 +56,7 @@
         <div class="row row-gap-3">
             {% for item in items_in_location %}
             <div class="col-6 col-md-4">
-                <div class="card" style="width: 18rem;">
+                <div class="card {{'pearl' if item['Rarity'] == 'Pearlescent' else 'legendary'}}" style="width: 18rem;">
                     <img src="{{ item['sheet-slug'] | item_img(item['Name']) | safe }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ item['Name'] }}</h5>

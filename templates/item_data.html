@@ -11,7 +11,7 @@
     <br>
     {% if item_data %}
     <div class="card w-75 mb-3 no-hover">
-        <img src="{{ sheet_info['slug'] | item_img(item_data['Name']) | safe }}" class="img-fluid" alt="{{ item_data['Name'] }} Image">
+        <img src="{{ sheet_info['slug'] | item_img(item_data['Name']) | safe }}" class="card-img-top" alt="{{ item_data['Name'] }} Image">
         <div class="card-body">
             <h1 class="card-title">{{ item_data['Name'] }}</h1>
             <p class="card-text red-text">"{{ item_data['Red Text'] }}"</p>
@@ -44,11 +44,12 @@
         <div class="row row-gap-3">
             {% for item in items_in_location %}
             <div class="col-6 col-md-4">
-                <div class="card" style="width: 18rem;" >
+                <div class="card {{'pearl' if item['Rarity'] == 'Pearlescent' else 'legendary'}}"
+                    style="width: 18rem;">
                     <img src="{{ item['sheet-slug'] | item_img(item['Name']) | safe }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ item['Name'] }}</h5>
-                        <p class="card-text">{{ item['Manufacturer'] or item['Class'] or 'Loot'}} {{ item['Type'] or sheet_info['original_name'][:-1]}} {% if sheet_info['slug'] == 'shields' %} Shield {% endif %}</p>
+                        <p class="card-text">{{ item['Manufacturer'] or item['Class'] or 'Loot'}} {{ item['Type'] or item['sheet'][:-1]}} {% if item['sheet-slug'] == 'shields' %} Shield {% endif %}</p>
                         
                         <a href="{{ item['url'] }}" class="btn btn-primary">View</a>
                     </div>
