@@ -13,7 +13,7 @@
     <div class="card w-75 mb-3 no-hover">
         <div class="card-body">
             <h1 class="card-title">{{ location_data['region_name'] }}</h1>
-            <p class="card-text">{{ location_data['Description'] }}</p>
+            <p class="card-text info">{{ location_data['Description'] }}</p>
         </div>
     </div>
     
@@ -30,8 +30,8 @@
                     <img src="{{ source['sheet-slug'] | item_img(source['Name']) | safe }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ source['Name'] }}</h5>
-                        <p class="card-text">{{ source['Manufacturer'] or source['Class'] or 'Loot'}} {{ source['Type'] or source['sheet'][:-1]}} {% if source['sheet'] == 'Shields' %} Shield {% endif %}</p>
-                        <a href="{{ source['url'] }}" class="btn btn-primary">View</a>
+                        <p class="card-text info">{{ source['Manufacturer'] or source['Class'] or 'Loot'}} {{ source['Type'] or source['sheet'][:-1]}} {% if source['sheet'] == 'Shields' %} Shield {% endif %}</p>
+                        <a href="{{ source['url'] }}" class="btn btn-primary stretched-link">View</a>
                     </div>
                 </div>
             </div>
@@ -48,8 +48,8 @@
                     <img src="{{ item['sheet-slug'] | item_img(item['Name']) | safe }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ item['Name'] }}</h5>
-                        <p class="card-text">{{ item['Manufacturer'] or item['Class'] or 'Loot'}} {{ item['Type'] or item['sheet'][:-1]}} {% if item['sheet'] == 'Shields' %} Shield {% endif %}</p>
-                        <a href="{{ item['url'] }}" class="btn btn-primary">View</a>
+                        <p class="card-text info">{{ item['Manufacturer'] or item['Class'] or 'Loot'}} {{ item['Type'] or item['sheet'][:-1]}} {% if item['sheet'] == 'Shields' %} Shield {% endif %}</p>
+                        <a href="{{ item['url'] }}" class="btn btn-primary stretched-link">View</a>
                     </div>
                 </div>
             </div>

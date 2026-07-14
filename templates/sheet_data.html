@@ -8,6 +8,7 @@ Database{% endblock %} {% block content %}
     <h2>{{sheet_info['original_name']}} Database</h2>
 
     <div class="container mb-3">
+
         {% if filter_options.items() %}
         <h4>Filters:</h4>
         {% endif %} {% for filter,options in filter_options.items() %}
@@ -38,7 +39,8 @@ Database{% endblock %} {% block content %}
             <div class="col-6 col-md-4">
                 <div class="card {{'' if sheet_info['original_name'] == 'Sources' else ('pearl' if row['Rarity'] == 'Pearlescent' else 'legendary')}}"
                     style="width: 18rem" {% for filter_column,options in filter_options.items() %} data-{{ filter_column
-                    }}="{{ row[filter_column] }}" {% endfor %}>
+                    }}="{{ row[filter_column] }}" {% endfor %} 
+                    data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="{{ row['Summary'] }}">
                     <img src="{{ sheet_info['slug'] | item_img(row['Name']) | safe }}"
                         class="card-img-top border-bottom" alt="..." />
                     <div class="card-body">
@@ -50,7 +52,7 @@ Database{% endblock %} {% block content %}
                             'shields' %} Shield {% endif %}
                         </p>
                         <a href="{{ url_for('display_item', sheet_slug=sheet_info['slug'], name_slug=row['name_slug']) }}"
-                            class="btn btn-primary">View</a>
+                            class="btn btn-primary stretched-link">View</a>
                     </div>
                 </div>
             </div>
@@ -62,6 +64,23 @@ Database{% endblock %} {% block content %}
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const filterState = {};
+
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+        popoverList.forEach((popover) => {
+            popover._config.delay = { "show": 500, "hide": 100 };
+
+            const popoverElement = popover._element;
+
+
+            popoverElement.addEventListener('show.bs.popover', (event) => {
+                const popoverText = event.target.getAttribute('data-bs-content');
+                if (popoverText === 'UNK' || !popoverText) {
+                    event.preventDefault();
+                }
+            })
+        });
 
         document.querySelectorAll('.filter-option').forEach((item) => {
             item.addEventListener('click', (event) => {

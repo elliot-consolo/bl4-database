@@ -14,7 +14,11 @@ app.add_url_rule('/node_modules/<path:filename>', endpoint='node_modules', view_
 
 SHEET_DESCRIPTIONS = {
     'Weapons': 'Weapons Info',
-    'Shields': 'Shields Info'
+    'Shields': 'Shields Info',
+    'Ordnance': 'Ordnance Info',
+    'Class Mods': 'Class Mods Info',
+    'Repkits': 'Repkits Info',
+    'Sources': 'Sources Info'
 }
 
 ABBREVIATIONS = {
@@ -124,6 +128,8 @@ def get_spreadsheet_data():
             filter_options = {}
             if 'Type' in df.columns:
                 filter_options['Type'] = sorted(df['Type'].unique().tolist())
+            if 'Rarity' in df.columns:
+                filter_options['Rarity'] = sorted(df['Rarity'].unique().tolist())
             if 'Manufacturer' in df.columns:
                 filter_options['Manufacturer'] = sorted(df['Manufacturer'].unique().tolist())
             if 'Elements' in df.columns:

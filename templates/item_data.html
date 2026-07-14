@@ -33,7 +33,7 @@
         <div class="card-body">
             <h4 class="card-title"> {{ source['name'] }}</h4>
             <p class="card-text"> {{ source['location'] }}</p>
-            <a href="{{ url_for('display_item', sheet_slug = 'sources', name_slug = source['slug']) }}" class="btn btn-primary">View</a>
+            <a href="{{ url_for('display_item', sheet_slug = 'sources', name_slug = source['slug']) }}" class="btn btn-primary stretched-link">View</a>
         </div>
     </div>
     {% endfor %}
@@ -51,7 +51,7 @@
                         <h5 class="card-title">{{ item['Name'] }}</h5>
                         <p class="card-text">{{ item['Manufacturer'] or item['Class'] or 'Loot'}} {{ item['Type'] or item['sheet'][:-1]}} {% if item['sheet-slug'] == 'shields' %} Shield {% endif %}</p>
                         
-                        <a href="{{ item['url'] }}" class="btn btn-primary">View</a>
+                        <a href="{{ item['url'] }}" class="btn btn-primary stretched-link">View</a>
                     </div>
                 </div>
             </div>

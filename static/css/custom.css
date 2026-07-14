@@ -11901,6 +11901,10 @@ h3, h4, h5, p, a, .btn {
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+.info {
+  color: #999999;
+}
+
 .legendary {
   --bs-card-color: #ffec8d;
   --bs-card-border-color: #bfa525;
