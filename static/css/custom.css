@@ -4,6 +4,7 @@
  * Copyright 2011-2025 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
 :root,
 [data-bs-theme=light] {
   --bs-blue: #0d6efd;
@@ -29,7 +30,7 @@
   --bs-gray-700: #495057;
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
-  --bs-primary: #6f42c1;
+  --bs-primary: #1c3de6;
   --bs-secondary: #6c757d;
   --bs-success: #198754;
   --bs-info: #0dcaf0;
@@ -37,7 +38,7 @@
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-primary-rgb: 111, 66, 193;
+  --bs-primary-rgb: 28, 61, 230;
   --bs-secondary-rgb: 108, 117, 125;
   --bs-success-rgb: 25, 135, 84;
   --bs-info-rgb: 13, 202, 240;
@@ -45,7 +46,7 @@
   --bs-danger-rgb: 220, 53, 69;
   --bs-light-rgb: 248, 249, 250;
   --bs-dark-rgb: 33, 37, 41;
-  --bs-primary-text-emphasis: rgb(44.4, 26.4, 77.2);
+  --bs-primary-text-emphasis: rgb(11, 24, 92);
   --bs-secondary-text-emphasis: rgb(43.2, 46.8, 50);
   --bs-success-text-emphasis: rgb(10, 54, 33.6);
   --bs-info-text-emphasis: rgb(5.2, 80.8, 96);
@@ -53,7 +54,7 @@
   --bs-danger-text-emphasis: rgb(88, 21.2, 27.6);
   --bs-light-text-emphasis: #495057;
   --bs-dark-text-emphasis: #495057;
-  --bs-primary-bg-subtle: rgb(226.2, 217.2, 242.6);
+  --bs-primary-bg-subtle: rgb(209, 216, 250);
   --bs-secondary-bg-subtle: rgb(225.6, 227.4, 229);
   --bs-success-bg-subtle: rgb(209, 231, 220.8);
   --bs-info-bg-subtle: rgb(206.6, 244.4, 252);
@@ -61,7 +62,7 @@
   --bs-danger-bg-subtle: rgb(248, 214.6, 217.8);
   --bs-light-bg-subtle: rgb(251.5, 252, 252.5);
   --bs-dark-bg-subtle: #ced4da;
-  --bs-primary-border-subtle: rgb(197.4, 179.4, 230.2);
+  --bs-primary-border-subtle: rgb(164, 177, 245);
   --bs-secondary-border-subtle: rgb(196.2, 199.8, 203);
   --bs-success-border-subtle: rgb(163, 207, 186.6);
   --bs-info-border-subtle: rgb(158.2, 233.8, 249);
@@ -93,11 +94,11 @@
   --bs-tertiary-bg: #f8f9fa;
   --bs-tertiary-bg-rgb: 248, 249, 250;
   --bs-heading-color: inherit;
-  --bs-link-color: #6f42c1;
-  --bs-link-color-rgb: 111, 66, 193;
+  --bs-link-color: rgb(28, 61, 230);
+  --bs-link-color-rgb: 28, 61, 230;
   --bs-link-decoration: underline;
-  --bs-link-hover-color: rgb(88.8, 52.8, 154.4);
-  --bs-link-hover-color-rgb: 89, 53, 154;
+  --bs-link-hover-color: rgb(73, 100, 235);
+  --bs-link-hover-color-rgb: 14, 31, 115;
   --bs-code-color: #d63384;
   --bs-highlight-color: #212529;
   --bs-highlight-bg: rgb(255, 242.6, 205.4);
@@ -118,7 +119,7 @@
   --bs-box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075);
   --bs-focus-ring-width: 0.25rem;
   --bs-focus-ring-opacity: 0.25;
-  --bs-focus-ring-color: rgba(111, 66, 193, 0.25);
+  --bs-focus-ring-color: rgba(28, 61, 230, 0.25);
   --bs-form-valid-color: #198754;
   --bs-form-valid-border-color: #198754;
   --bs-form-invalid-color: #dc3545;
@@ -141,7 +142,7 @@
   --bs-tertiary-color-rgb: 222, 226, 230;
   --bs-tertiary-bg: rgb(42.5, 47.5, 52.5);
   --bs-tertiary-bg-rgb: 43, 48, 53;
-  --bs-primary-text-emphasis: rgb(168.6, 141.6, 217.8);
+  --bs-primary-text-emphasis: rgb(119, 139, 240);
   --bs-secondary-text-emphasis: rgb(166.8, 172.2, 177);
   --bs-success-text-emphasis: rgb(117, 183, 152.4);
   --bs-info-text-emphasis: rgb(109.8, 223.2, 246);
@@ -149,7 +150,7 @@
   --bs-danger-text-emphasis: rgb(234, 133.8, 143.4);
   --bs-light-text-emphasis: #f8f9fa;
   --bs-dark-text-emphasis: #dee2e6;
-  --bs-primary-bg-subtle: rgb(22.2, 13.2, 38.6);
+  --bs-primary-bg-subtle: rgb(32, 42, 79);
   --bs-secondary-bg-subtle: rgb(21.6, 23.4, 25);
   --bs-success-bg-subtle: rgb(5, 27, 16.8);
   --bs-info-bg-subtle: rgb(2.6, 40.4, 48);
@@ -157,7 +158,7 @@
   --bs-danger-bg-subtle: rgb(44, 10.6, 13.8);
   --bs-light-bg-subtle: #343a40;
   --bs-dark-bg-subtle: #1a1d20;
-  --bs-primary-border-subtle: rgb(66.6, 39.6, 115.8);
+  --bs-primary-border-subtle: rgb(31, 47, 117);
   --bs-secondary-border-subtle: rgb(64.8, 70.2, 75);
   --bs-success-border-subtle: rgb(15, 81, 50.4);
   --bs-info-border-subtle: rgb(7.8, 121.2, 144);
@@ -166,10 +167,10 @@
   --bs-light-border-subtle: #495057;
   --bs-dark-border-subtle: #343a40;
   --bs-heading-color: inherit;
-  --bs-link-color: rgb(168.6, 141.6, 217.8);
-  --bs-link-hover-color: rgb(185.88, 164.28, 225.24);
-  --bs-link-color-rgb: 169, 142, 218;
-  --bs-link-hover-color-rgb: 186, 164, 225;
+  --bs-link-color: rgb(28, 61, 230);
+  --bs-link-hover-color: rgb(73, 100, 235);
+  --bs-link-color-rgb: 28, 61, 230;
+  --bs-link-hover-color-rgb: 73, 100, 235;
   --bs-code-color: rgb(230.4, 132.6, 181.2);
   --bs-highlight-color: #dee2e6;
   --bs-highlight-bg: rgb(102, 77.2, 2.8);
@@ -2138,9 +2139,9 @@ progress {
 .form-control:focus {
   color: var(--bs-body-color);
   background-color: var(--bs-body-bg);
-  border-color: rgb(183, 160.5, 224);
+  border-color: rgb(164, 177, 245);
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(111, 66, 193, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(28, 61, 230, 0.25);
 }
 .form-control::-webkit-date-and-time-value {
   min-width: 85px;
@@ -11879,21 +11880,35 @@ h3, h4, h5, p, a, .btn {
   font-style: normal;
 }
 
+.navbar {
+  border-image: linear-gradient(to right, #1c3de6, #1c87e6) 1;
+  background: linear-gradient(to right, #0f1221, #0a131b);
+  
+}
+
+.btn {
+  background: linear-gradient(to bottom, #1c3de6, #1c87e6);
+  border-color: #1c3de6;
+}
+
 .btn:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to bottom, #1730ab, #1460a2);
+  border-color: #1730ab;
+  color:#d5d5d5;
 }
 
 .legendary .btn:hover {
-  background-color: #746100;
+  background: linear-gradient(to right, #715e00, #ad9100);
 }
 
 .pearl .btn:hover {
-  background-color: #004d55;
+  background: linear-gradient(to right, #00606b, #008593);
 }
 
 .card {
   --bs-card-bg: #1e1e24;
-  
+
   --bs-card-border-width: 2px;       /* Removes the default border */
   --bs-card-border-radius: 0.5rem;   /* Makes corners very round */
   --bs-card-spacer-x: 1rem;          /* Gives text more breathing room horizontally */
@@ -11916,7 +11931,7 @@ h3, h4, h5, p, a, .btn {
 
 .legendary .btn {
   border-color: #bfa525;
-  background-color: #a08600;
+  background: linear-gradient(to right, #9c8200, #cbaa00);
 }
 
 .pearl {
@@ -11930,7 +11945,7 @@ h3, h4, h5, p, a, .btn {
 
 .pearl .btn {
   border-color: #1b9eac;
-  background-color: #006873;
+  background: linear-gradient(to right, #008c9b, #00abbe);
 }
 
 .card-img-top {
@@ -11988,6 +12003,24 @@ h3, h4, h5, p, a, .btn {
 
   transition: text-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
   transform-origin: left center;
+}
+
+.infinite-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  
+  z-index: -1;
+
+  pointer-events: none;
+
+  background-image: url('../images/vdbg4.webp');
+  background-repeat: repeat;
+  
+  background-position: 0 0;
+  will-change: background-position;
 }
 
 /*# sourceMappingURL=custom.css.map */

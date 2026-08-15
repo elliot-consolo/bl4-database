@@ -3,6 +3,8 @@
 {% block title %}{{ item_data['Name'] }}{% endblock %}
 
 {% block content %}
+<div class="infinite-bg"></div>
+
 <div class="container mt-4">
     <div class="back-link">
         <a href="{{ url_for('display_sheet', sheet_slug = sheet_info['slug']) }}">&larr; Back to {{ sheet_info['original_name'] }}</a>
@@ -67,3 +69,18 @@
 </div>
 {% endblock %}
 
+{% block scripts %}
+<script>
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+        const multiplier = 0.1; // Adjust this value to control the speed of the background movement
+        const backgroundPositionY = scrollTop * multiplier;
+
+        const background = document.querySelector('.infinite-bg');
+        if (background) {
+            background.style.backgroundPosition = `0px ${backgroundPositionY}px`;
+        }
+    });
+</script>
+{% endblock %}

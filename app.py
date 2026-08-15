@@ -13,12 +13,12 @@ app.add_url_rule('/node_modules/<path:filename>', endpoint='node_modules', view_
 
 
 SHEET_DESCRIPTIONS = {
-    'Weapons': 'Weapons Info',
-    'Shields': 'Shields Info',
-    'Ordnance': 'Ordnance Info',
-    'Class Mods': 'Class Mods Info',
-    'Repkits': 'Repkits Info',
-    'Sources': 'Sources Info'
+    'Weapons': 'Browse 100+ Unique Weapons!',
+    'Shields': 'Additional Energy or Armor Protection',
+    'Ordnance': 'Heavy Launchers and Grenades',
+    'Class Mods': 'Provides Unique Abilities and Boosts Character Skills',
+    'Repkits': 'On-Demand Healing',
+    'Sources': 'Story Bosses, Raid Bosses, and more! Find out where to get your favorite items!',
 }
 
 ABBREVIATIONS = {

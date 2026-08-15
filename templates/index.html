@@ -1,6 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}VaultDrops{% endblock %}
 {% block content %}
+
+<div class="infinite-bg"></div>
 
 <h1 class="text-center mb-4 mt-2">Welcome to VaultDrops!</h1>
 
@@ -79,4 +81,20 @@
 </div>
 {% endfor %}
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+        const multiplier = 0.1; // Adjust this value to control the speed of the background movement
+        const backgroundPositionY = scrollTop * multiplier;
+
+        const background = document.querySelector('.infinite-bg');
+        if (background) {
+            background.style.backgroundPosition = `0px ${backgroundPositionY}px`;
+        }
+    });
+</script>
 {% endblock %}
