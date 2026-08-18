@@ -105,8 +105,6 @@ Database{% endblock %} {% block content %}
                     .toLowerCase();
                 const filterValue = event.target.getAttribute('filter-value');
 
-                const filter = event.target.getAttribute('filter-value');
-
                 const button = event.target
                     .closest('.dropdown')
                     .querySelector('.dropdown-toggle');
@@ -117,31 +115,32 @@ Database{% endblock %} {% block content %}
 
                 filterState[filterType] = filterValue;
 
-                filterCards(filterState, filterType);
+                filterCards(filterState);
             });
         });
 
-        function filterCards(filterState, filterType) {
-            const columns = document
-                .getElementById('table')
-                .querySelectorAll('.col-md-4');
+        function filterCards(filterState) {
+            const columns = document.getElementById('table').querySelectorAll('.col-md-4');
+            
 
             columns.forEach((cols) => {
                 let isMatch = true;
                 const card = cols.querySelector('.card');
-
+                console.log(card);
+                
                 for (const column in filterState) {
-                    const filterValue = filterState[column];
-                    //console.log(filterValue);
-                    const cardValue = card.getAttribute(`data-${column}`);
-                    //console.log(cardValue);
+                    let filterValue = filterState[column];
+                    console.log(filterValue);
+                    let cardValue = card.getAttribute(`data-${column}`);
+                    console.log(cardValue);
 
-                    if (filterType === 'elements' || filterType === 'location') {
+                    if (column === 'elements' || column === 'location') {
                         if (
                             filterValue !== 'Any' &&
                             filterValue &&
                             !cardValue.includes(filterValue)
                         ) {
+                            //console.log('False (E/L): ' + filterValue + ' not in ' + cardValue + ' for ' + card.querySelector('.card-title').textContent + ' (' + column + ')');
                             isMatch = false;
                             break;
                         }
@@ -150,12 +149,14 @@ Database{% endblock %} {% block content %}
                         filterValue &&
                         filterValue !== cardValue
                     ) {
+                        //console.log('False (Other): ' + filterValue + ' not in ' + cardValue + ' for ' + card.querySelector('.card-title').textContent + ' (' + column + ')');
                         isMatch = false;
                         break;
                     }
                 }
+
                 if (isMatch) {
-                    console.log('g');
+                    //console.log('Match found for filter: ' + JSON.stringify(filterState) + ' in card: ' + card.querySelector('.card-title').textContent);
                     cols.classList.remove('d-none');
                 } else {
                     cols.classList.add('d-none');
