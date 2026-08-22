@@ -6,7 +6,11 @@
 
 <h1 class="text-center mb-4 mt-2">Welcome to VaultDrops!</h1>
 
-<h2 class="text-center mb-3">Browse Gear:</h2>
+<div class="banner-container mb-4">
+    <img src="{{ url_for('static', filename='images/vdbanner.webp') }}" class="banner">
+    <h2 class="banner-text text-center">Browse Gear</h2>
+</div>
+
 
 <div class="container mb-5 mx-auto" id="table">
     <div class="row row-gap-3 justify-content-center">
@@ -14,7 +18,8 @@
         {% if sheet_info['original_name'] != 'Sources' %}
         <div class="col-6 col-md-4 d-flex justify-content-center">
             <div class="card mx-auto" style="width: 18rem;">
-                <div class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-pause="false" data-bs-touch="false">
+                <div class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-pause="false"
+                    data-bs-touch="false">
                     <div class="carousel-inner">
                         {% for image in random_images[sheet_slug] %}
                         <div class="carousel-item {% if loop.first %}active{% endif %}">
@@ -27,7 +32,8 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ sheet_info['original_name'] }}</h5>
                     <p class="card-text info">{{ sheet_info['description'] }}</p>
-                    <a href="{{ url_for('display_sheet', sheet_slug=sheet_slug) }}" class="btn btn-primary stretched-link">Search {{
+                    <a href="{{ url_for('display_sheet', sheet_slug=sheet_slug) }}"
+                        class="btn btn-primary stretched-link">Search {{
                         sheet_info['original_name'] }}
                     </a>
                 </div>
@@ -38,10 +44,14 @@
     </div>
 </div>
 
-<h2 class="text-center mb-3">Find Loot Sources:</h2>
+<div class="banner-container mb-4">
+    <img src="{{ url_for('static', filename='images/vdbanner.webp') }}" class="banner">
+    <h2 class="banner-text text-center">Find Loot Sources</h2>
+</div>
 
-<div class="card mx-auto mb-5" style="width: 30rem;">
-    <div class="carousel slide carousel-fade card-img-top" data-bs-ride="carousel" data-bs-pause="false" data-bs-touch="false">
+<div class="card mx-auto w-50 mb-5">
+    <div class="carousel slide carousel-fade card-img-top" data-bs-ride="carousel" data-bs-pause="false"
+        data-bs-touch="false">
         <div class="carousel-inner">
             {% for image in random_images['sources'] %}
             <div class="carousel-item {% if loop.first %}active{% endif %}">
@@ -61,10 +71,13 @@
     </div>
 </div>
 
-<h2 class="text-center mb-3">Discover Locations:</h2>
+<div class="banner-container">
+    <img src="{{ url_for('static', filename='images/vdbanner.webp') }}" class="banner">
+    <h2 class="banner-text text-center">Discover Locations</h2>
+</div>
 
 {% for region in locations['regions'] %}
-<div class="container-fluid p-0">
+<div class="container-fluid p-0 g-0 m-0">
     <div class="row g-0 mx-n3 mx-sm-n4 mx-md-n5">
         <div class="col-12 p-0 d-flex flex-column">
             <div class="location-ctr">

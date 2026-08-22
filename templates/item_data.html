@@ -15,7 +15,7 @@
     {% if item_data %}
     <div class="container">
         <div class="row align-items-start">
-            <div class="col-8">
+            <div class="col-12 col-md-8">
                 <div class="card mb-3 no-hover">
                     <img src="{{ sheet_info['slug'] | item_img(item_data['Name']) | safe }}"
                         class="card-img-top border-bottom" alt="{{ item_data['Name'] }} Image">
@@ -48,7 +48,7 @@
 
             </div>
 
-            <div class="col-4">
+            <div class="col-6 col-md-4">
 
                 <h2 class="text-center">Loot Source</h2>
                 {% for source in sources %}
@@ -105,7 +105,7 @@
         <div class="row row-gap-3">
             {% for item in items_in_location %}
             <div class="col-6 col-md-4">
-                <div class="card {{'pearl' if item['Rarity'] == 'Pearlescent' else 'legendary'}}" style="width: 18rem;">
+                <div class="card mx-3 {{'pearl' if item['Rarity'] == 'Pearlescent' else 'legendary'}}" >
                     <img src="{{ item['sheet-slug'] | item_img(item['Name']) | safe }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ item['Name'] }}</h5>
