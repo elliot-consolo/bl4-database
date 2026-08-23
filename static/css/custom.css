@@ -11983,6 +11983,8 @@ h3, h4, h5, p, a, .btn {
   color: #ffffff;
   font-size: clamp(1.5rem, 4vw, 3rem);
   text-shadow: 0px 0px 4px rgba(255, 255, 255, 0.7);
+  text-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .location-images:hover {
@@ -12048,6 +12050,24 @@ h3, h4, h5, p, a, .btn {
   
   background-position: 0 0;
   will-change: background-position;
+}
+
+@media (min-width: 1400px) {
+  /* Expands container */
+  .container {
+    max-width: 90vw;
+  }
+
+  /* Automatically scales all rem-based typography and Bootstrap padding */
+  :root {
+    font-size: 18px; /* Default is 16px */
+  }
+}
+
+@media (min-width: 2200px) {
+  :root {
+    font-size: 20px; /* Scales up further on 1440p/4K */
+  }
 }
 
 /*# sourceMappingURL=custom.css.map */
