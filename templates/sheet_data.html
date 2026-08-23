@@ -38,7 +38,7 @@ Database{% endblock %} {% block content %}
     <div class="container-fluid" id="table">
         <div class="row row-gap-3">
             {% for row in sheet_data %}
-            <div class="col-6 col-xl-4 col-xxl-3">
+            <div class="col-6 col-xl-4 col-xxl-3 table-columns">
                 <div class="card mx-3 {{'' if sheet_info['original_name'] == 'Sources' else ('pearl' if row['Rarity'] == 'Pearlescent' else 'legendary')}}"
                      {% for filter_column,options in filter_options.items() %} data-{{ filter_column
                     }}="{{ row[filter_column] }}" {% endfor %} 
@@ -120,7 +120,7 @@ Database{% endblock %} {% block content %}
         });
 
         function filterCards(filterState) {
-            const columns = document.getElementById('table').querySelectorAll('.col-md-4');
+            const columns = document.getElementById('table').querySelectorAll('.table-columns');
             
 
             columns.forEach((cols) => {

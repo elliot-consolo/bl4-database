@@ -58,7 +58,7 @@
     <div class="container" id="table">
         <div class="row row-gap-3">
             {% for item in items_in_location %}
-            <div class="col-6 col-md-4">
+            <div class="col-6 col-xl-4 col-xxl-3">
                 <div class="card mx-3 {{'pearl' if item['Rarity'] == 'Pearlescent' else 'legendary'}}">
                     <img src="{{ item['sheet-slug'] | item_img(item['Name']) | safe }}" class="card-img-top" alt="...">
                     <div class="card-body">

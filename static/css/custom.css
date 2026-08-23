@@ -11981,7 +11981,7 @@ h3, h4, h5, p, a, .btn {
   left: 50%;
   transform: translate(-50%, -50%);
   color: #ffffff;
-  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-size: clamp(1.5rem, 6vw, 5rem);
   text-shadow: 0px 0px 4px rgba(255, 255, 255, 0.7);
   text-wrap: nowrap;
   white-space: nowrap;
@@ -12060,13 +12060,13 @@ h3, h4, h5, p, a, .btn {
 
   /* Automatically scales all rem-based typography and Bootstrap padding */
   :root {
-    font-size: 18px; /* Default is 16px */
+    font-size: 20px; /* Default is 16px */
   }
 }
 
 @media (min-width: 2200px) {
   :root {
-    font-size: 20px; /* Scales up further on 1440p/4K */
+    font-size: 24px; /* Scales up further on 1440p/4K */
   }
 }
 
